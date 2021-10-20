@@ -10,14 +10,14 @@
 <body>
 	<table border="2">
 		<tr>
-			<th colspan="2">${name} 님의 소개</th>
+			<th colspan="2">소개</th>
 		</tr>
 		<tr>
 			<td>
 				취미
 			</td>
 			<td>
-				${hobby }
+				${vo.hobby }
 			</td>
 		</tr>
 		<tr>
@@ -25,7 +25,7 @@
 				몸무게
 			</td>
 			<td>
-				${weight }
+				${vo.weight } kg
 			</td>
 		</tr>
 		<tr>
@@ -33,7 +33,7 @@
 				신장
 			</td>
 			<td>
-				${height }
+				${vo.height } cm
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +41,7 @@
 				나이
 			</td>
 			<td>
-				${age }
+				${vo.age } 살
 			</td>
 		</tr>
 	</table>
