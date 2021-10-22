@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--vo  -->
+	<bean id="mvcboardVO" class="com.leemanni.vo.MvcboardVO"/>
+	<bean id="mvcBoardList" class="com.leemanni.vo.MvcboardList"/>
+	
+	<!-- dao -->
+	<bean id="dao" class="com.leemanni.dao.WebDAO"/>
+
+	<!-- service -->
+	<bean id="insert" class="com.leemanni.service.InsertService"/>
+
+</beans>
