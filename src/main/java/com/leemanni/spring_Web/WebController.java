@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.leemanni.service.InsertService;
+import com.leemanni.service.SelectService;
 import com.leemanni.service.WebService;
 import com.leemanni.vo.UserVO;
 
@@ -42,6 +43,12 @@ public class WebController {
 		return modelAndView;
 	}
 	
+	// # 신버전 커맨드 클래스 사용
+	@RequestMapping("/check")
+	public String checkView(@ModelAttribute("vo") UserVO userVO) {
+		return "index/checkView";
+	}
+//	====================================================================================================================
 	
 	@RequestMapping("/insert")
 	public String insert() {
@@ -58,20 +65,16 @@ public class WebController {
 		return "insert";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// # 신버전 커맨드 클래스 사용
-	@RequestMapping("/check")
-	public String checkView(@ModelAttribute("vo") UserVO userVO) {
-		return "index/checkView";
+	@RequestMapping("/list")
+	public String list(HttpServletRequest request, Model model) {
+		model.addAttribute("request", request);
+		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
+		WebService service =  ctx.getBean("select", SelectService.class);
+		service.execute(model);
+		ctx.close();
+		return "list";
 	}
+	
 	
 	
 	

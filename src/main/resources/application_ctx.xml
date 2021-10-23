@@ -5,12 +5,13 @@
 
 	<!--vo  -->
 	<bean id="mvcboardVO" class="com.leemanni.vo.MvcboardVO"/>
-	<bean id="mvcBoardList" class="com.leemanni.vo.MvcboardList"/>
+	<bean id="mvcboardList" class="com.leemanni.vo.MvcboardList"/>
 	
 	<!-- dao -->
 	<bean id="dao" class="com.leemanni.dao.WebDAO"/>
 
 	<!-- service -->
 	<bean id="insert" class="com.leemanni.service.InsertService"/>
-
+	<bean id="select" class="com.leemanni.service.SelectService"/>
+	
 </beans>
