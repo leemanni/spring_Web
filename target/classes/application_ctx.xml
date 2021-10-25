@@ -13,5 +13,7 @@
 	<!-- service -->
 	<bean id="insert" class="com.leemanni.service.InsertService"/>
 	<bean id="select" class="com.leemanni.service.SelectService"/>
+	<bean id="increment" class="com.leemanni.service.IncrementService"/>
+	<bean id="contentView" class="com.leemanni.service.ContentViewService"/>
 	
 </beans>

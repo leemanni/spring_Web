@@ -1,7 +1,5 @@
 package com.leemanni.spring_Web;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -25,7 +23,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
-		return "redirect:insert";
+		return "redirect:list";
 	}
 	
 }

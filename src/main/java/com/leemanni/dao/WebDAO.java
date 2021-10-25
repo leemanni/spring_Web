@@ -1,6 +1,5 @@
 package com.leemanni.dao;
 
-import java.security.cert.TrustAnchor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,6 +38,7 @@ public class WebDAO {
 		try {
 			String sql = "insert into mvcboard (idx, name, subject, content, gup, lev, seq) "
 					+ "values(mvcboard_idx_seq.nextval, ?, ?, ?,mvcboard_idx_seq.currval, 0 , 0 )";
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mvcboardVO.getName());
 			pstmt.setString(2, mvcboardVO.getSubject());
@@ -57,6 +57,7 @@ public class WebDAO {
 		int result = 0;
 		try {
 			String sql = "select count(*) from mvcboard";
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			rs.next();
@@ -106,9 +107,52 @@ public class WebDAO {
 			if(pstmt != null) {try{pstmt.close();}catch (SQLException e) {}}
 			if(rs != null) {try{rs.close();}catch (SQLException e) {}}
 		}
-		
-		
 		return list;
+	}
+
+
+	public void increment(int idx) {
+		String sql = "update mvcboard set hit = hit + 1 where idx = ?";
+		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (Exception e) {}
+		finally {
+			if(conn != null) {try{conn.close();}catch (SQLException e) {}}
+			if(pstmt != null) {try{pstmt.close();}catch (SQLException e) {}}
+		}
+	}
+
+
+	public MvcboardVO selectByIdx(int idx) {
+		String sql = "select * from mvcboard where idx = ?";
+		GenericXmlApplicationContext context = new GenericXmlApplicationContext("classpath:application_ctx.xml");
+		MvcboardVO mvcboardVO = context.getBean("mvcboardVO", MvcboardVO.class);
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+		    rs = pstmt.executeQuery();
+		    rs.next();
+			mvcboardVO.setIdx(rs.getInt("idx"));
+			mvcboardVO.setName(rs.getString("name"));
+			mvcboardVO.setSubject(rs.getString("subject"));
+			mvcboardVO.setContent(rs.getString("content"));
+			mvcboardVO.setGup(rs.getInt("gup"));
+			mvcboardVO.setLev(rs.getInt("lev"));
+			mvcboardVO.setSeq(rs.getInt("seq"));
+			mvcboardVO.setHit(rs.getInt("hit"));
+			mvcboardVO.setWriteDate(rs.getTimestamp("writeDate"));
+		} catch (Exception e) {}
+		finally {
+			if(conn != null) {try{conn.close();}catch (SQLException e) {}}
+			if(pstmt != null) {try{pstmt.close();}catch (SQLException e) {}}
+			if(rs != null) {try{rs.close();}catch (SQLException e) {}}
+		}
+		return mvcboardVO;
 	}
 
 	

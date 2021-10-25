@@ -22,8 +22,11 @@ public class SelectService implements WebService{
 
 	@Override
 	public void execute(Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request =(HttpServletRequest) map.get("request");
+		
+		
 		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
 		WebDAO dao = ctx.getBean("dao", WebDAO.class);
 		
@@ -31,7 +34,9 @@ public class SelectService implements WebService{
 		int currentPage = 1;
 		try {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
+//		System.out.println(currentPage);
 		int totalCount = dao.selectCount();
 //		System.out.println(totalCount);
 		MvcboardList mvcboardList = ctx.getBean("mvcboardList", MvcboardList.class);
@@ -41,8 +46,9 @@ public class SelectService implements WebService{
 		hmap.put("endNo", mvcboardList.getEndNo());
 		hmap.put("startNo", mvcboardList.getStartNo());
 		mvcboardList.setList(dao.selectList(hmap));
-		System.out.println(mvcboardList.getList());
+//		System.out.println(mvcboardList.getList());
 		model.addAttribute(mvcboardList);
+		ctx.close();
 	}
 
 }
