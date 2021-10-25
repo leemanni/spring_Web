@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import com.leemanni.dao.WebDAO;
 import com.leemanni.vo.MvcboardVO;
 
-public class ContentViewService implements WebService {
+public class UpdateService implements WebService {
 
 	@Override
 	public void execute(MvcboardVO mvcboardVO) {
@@ -25,15 +25,11 @@ public class ContentViewService implements WebService {
 		
 		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
 		WebDAO dao = ctx.getBean("dao", WebDAO.class);
-		
-		int idx = Integer.parseInt(request.getParameter("idx"));
 		MvcboardVO mvcboardVO = ctx.getBean("mvcboardVO", MvcboardVO.class);
-		mvcboardVO = dao.selectByIdx(idx);
-		
-		model.addAttribute("mvcboardVO", mvcboardVO);
-		model.addAttribute("currentPage", Integer.parseInt(request.getParameter("currentPage")));
-		model.addAttribute("enter", "\r\n");
-		ctx.close();
+		mvcboardVO.setIdx(Integer.parseInt(request.getParameter("idx")));
+		mvcboardVO.setSubject(request.getParameter("subject"));
+		mvcboardVO.setContent(request.getParameter("content"));
+		dao.update(mvcboardVO);
 	}
 
 }

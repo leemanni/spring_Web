@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.leemanni.service.ContentViewService;
+import com.leemanni.service.DeleteService;
 import com.leemanni.service.IncrementService;
 import com.leemanni.service.InsertService;
 import com.leemanni.service.SelectService;
+import com.leemanni.service.UpdateService;
 import com.leemanni.service.WebService;
 import com.leemanni.vo.UserVO;
+import com.mysql.jdbc.UpdatableResultSet;
 
 @Controller
 public class WebController {
@@ -64,7 +67,7 @@ public class WebController {
 		WebService service =  ctx.getBean("insert", InsertService.class);
 		service.execute(model);
 		ctx.close();
-		return "insert";
+		return "redirect:list";
 	}
 	
 	@RequestMapping("/list")
@@ -80,6 +83,7 @@ public class WebController {
 //	선택된 글 조회수 1 증가
 	@RequestMapping("/increment")
 	public String increment(HttpServletRequest request, Model model) {
+		System.out.println("DTO => increment");
 		model.addAttribute("request", request);
 		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
 		WebService service =  ctx.getBean("increment", IncrementService.class);
@@ -100,16 +104,38 @@ public class WebController {
 		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
 		WebService service = ctx.getBean("contentView", ContentViewService.class);
 		service.execute(model);
-		
-		int idx =  Integer.parseInt(request.getParameter("idx"));
-		int currentPage =  Integer.parseInt(request.getParameter("currentPage"));
-		model.addAttribute("idx", idx);
-		model.addAttribute("currentPage", currentPage);
 		ctx.close();
 		return "contentView";
 	}
 	
+	@RequestMapping("/update")
+	public String update(HttpServletRequest request, Model model) {
+		model.addAttribute("request", request);
+		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
+		WebService service = ctx.getBean("update", UpdateService.class);
+		service.execute(model);
+		int idx =  Integer.parseInt(request.getParameter("idx"));
+		int currentPage =  Integer.parseInt(request.getParameter("currentPage"));
+		
+		model.addAttribute("idx", idx);
+		model.addAttribute("currentPage", currentPage);
+		return "redirect:list";
+	}
 	
+	
+	@RequestMapping("/delete")
+	public String delete(HttpServletRequest request, Model model) {
+		model.addAttribute("request", request);
+		AbstractApplicationContext ctx = new  GenericXmlApplicationContext("classpath:application_ctx.xml");
+		WebService service = ctx.getBean("delete", DeleteService.class);
+		service.execute(model);
+		
+		
+		
+		int currentPage =  Integer.parseInt(request.getParameter("currentPage"));
+		model.addAttribute("currentPage", currentPage);
+		return "redirect:list";
+	}
 	
 	
 }

@@ -155,6 +155,41 @@ public class WebDAO {
 		return mvcboardVO;
 	}
 
+
+	public void update(MvcboardVO mvcboardVO) {
+		String sql = "update mvcboard set content = ? , subject = ? where idx = ?";
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(2, mvcboardVO.getSubject());
+			pstmt.setString(1, mvcboardVO.getContent());
+			pstmt.setInt(3, mvcboardVO.getIdx());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+		}finally {
+			if(conn != null) {try{conn.close();}catch (SQLException e) {}}
+			if(pstmt != null) {try{pstmt.close();}catch (SQLException e) {}}
+		}
+	}
+
+
+	public void delete(int idx) {
+		System.out.println("DAO => delete");
+		String sql = "delete from mvcboard where idx = ?";
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+		}finally {
+			if(conn != null) {try{conn.close();}catch (SQLException e) {}}
+			if(pstmt != null) {try{pstmt.close();}catch (SQLException e) {}}
+		}
+	}
+
+
+
 	
 
 }

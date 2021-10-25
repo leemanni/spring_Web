@@ -15,5 +15,7 @@
 	<bean id="select" class="com.leemanni.service.SelectService"/>
 	<bean id="increment" class="com.leemanni.service.IncrementService"/>
 	<bean id="contentView" class="com.leemanni.service.ContentViewService"/>
+	<bean id="update" class="com.leemanni.service.UpdateService"/>
+	<bean id="delete" class="com.leemanni.service.DeleteService"/>
 	
 </beans>
