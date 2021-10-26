@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +28,22 @@ import com.leemanni.service.WebService;
  */
 @Controller
 public class HomeController {
+	private JdbcTemplate template;
 	
+	
+	public JdbcTemplate getTemplate() {
+		return template;
+	}
+	@Autowired	
+	public void setTemplate(JdbcTemplate template) {
+		this.template = template;
+		Constant.template = this.template;
+	}
+	
+	
+//	===========================================================================================================
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		
 		return "redirect:list";
 	}
 	@RequestMapping("/insert")
