@@ -5,17 +5,23 @@
 
 	<!--vo  -->
 	<bean id="mvcboardVO" class="com.leemanni.vo.MvcboardVO"/>
+	
 	<bean id="mvcboardList" class="com.leemanni.vo.MvcboardList"/>
+	
+	<!-- service -->
+	<bean id="insert" class="com.leemanni.service.InsertService"/>
+	
+	<bean id="select" class="com.leemanni.service.SelectService"/>
+	
+	<bean id="increment" class="com.leemanni.service.IncrementService"/>
+	
+	<bean id="contentView" class="com.leemanni.service.ContentViewService"/>
+	
+	<bean id="update" class="com.leemanni.service.UpdateService"/>
+	
+	<bean id="delete" class="com.leemanni.service.DeleteService"/>
 	
 	<!-- dao -->
 	<bean id="dao" class="com.leemanni.dao.WebDAO"/>
-
-	<!-- service -->
-	<bean id="insert" class="com.leemanni.service.InsertService"/>
-	<bean id="select" class="com.leemanni.service.SelectService"/>
-	<bean id="increment" class="com.leemanni.service.IncrementService"/>
-	<bean id="contentView" class="com.leemanni.service.ContentViewService"/>
-	<bean id="update" class="com.leemanni.service.UpdateService"/>
-	<bean id="delete" class="com.leemanni.service.DeleteService"/>
 	
 </beans>

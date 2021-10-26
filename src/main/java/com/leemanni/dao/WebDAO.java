@@ -25,14 +25,13 @@ public class WebDAO {
 		try {
 			Context context = new InitialContext();
 			dataSource = (DataSource) context.lookup("java:/comp/env/jdbc/oracle");
-			conn = dataSource.getConnection();
+//			conn = dataSource.getConnection(); DB 두번 연결하지 마라 ㅡㅡ
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("DB 연결 실패");
 		}
 		
 	}
-	
 	
 	public void insert(MvcboardVO mvcboardVO) {
 		try {
