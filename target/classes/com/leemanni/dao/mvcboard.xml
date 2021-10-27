@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leemanni.dao.DAO">
+	
+	<!-- 메인글 저장 -->
+	<insert id="insert" parameterType="vo">
+		<!-- 
+			mapper로 사용되는 인터페이스에서 추상 메서드가 sql 명령으로 넘겨주는 인수가 여러개일 경우 넘어오는
+			순서대로 param 뒤에 일련번호를 붙여서 데이터를 받아야 한다. => 일련 번호는 1부터 시작한다.
+			insert into mvcboard (idx, name, subject, content, gup, lev, seq) 
+			values (mvcboard_idx_seq.nextval, #{param1}, #{param2}, #{param3}, mvcboard_idx_seq.currval, 0, 0)
+		 -->
+			insert into mvcboard (idx, name, subject, content, gup, lev, seq) 
+			values (mvcboard_idx_seq.nextval, #{name}, #{subject}, #{content}, mvcboard_idx_seq.currval, 0, 0)
+	</insert>
+	
+	<!-- 전체 글 개수 구하기 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from mvcboard
+	</select>
+	
+	<!-- 1페이지 분량 글 받기 -->
+	<select id="selectList" parameterType="java.util.HashMap" resultType="vo">
+		<!-- 
+			<![CDATA[
+				select * from (
+					select rownum rnum, TT.* from (
+							select * from mvcboard order by gup desc, seq asc
+						)TT where rownum <= #{endNo}
+					) where rnum >= #{startNo}
+			]]>	
+		 -->
+				select * from (
+					select rownum rnum, TT.* from (
+							select * from mvcboard order by gup desc, seq asc
+						)TT
+					) where rnum between #{startNo} and #{endNo}
+	</select>
+	
+	<!-- 조회수 1 증가 -->
+	<update id="increment" parameterType="int">
+		update mvcboard set hit = hit + 1 where idx = #{idx}
+	</update>
+	
+	<!-- 선택한 글 가져오기 -->
+	<select id="selectByIdx" parameterType="int" resultType="vo">
+		select * from mvcboard where idx = #{idx}
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="update" parameterType="vo">
+		update mvcboard set subject = #{subject}, content = #{content} where idx = #{idx}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from mvcboard where idx = #{idx}
+	</delete>
+	
+	<!-- 게시글 출력순서 조정 -->
+	<update id="replyIncrement" parameterType="java.util.HashMap">
+		update mvcboard set seq = seq + 1 where gup = #{gup} and seq >= #{seq}
+	</update>
+	
+	<!-- 답글 삽입 -->
+	<insert id="replyInsert" parameterType="vo">
+		insert into mvcboard(idx, name, subject, content, gup, lev, seq) 
+		values(mvcboard_idx_seq.nextval, #{name}, #{subject}, #{content}, #{gup}, #{lev}, #{seq})
+	</insert>
+</mapper>
+
+
+
+
+
+
+
+
+ 	
+
+
+
+
+
+
